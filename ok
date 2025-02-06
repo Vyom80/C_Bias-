@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Bias Cards</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .stack {
+            position: relative;
+            width: 300px;
+            height: 180px;
+        }
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: orange;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        .card p {
+            margin: 5px;
+            font-weight: bold;
+        }
+        .card span {
+            font-size: 0.8em;
+            margin-top: 5px;
+            padding: 5px;
+            display: block;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cognitive Bias Cards</h1>
+    <div class="stack" id="cardStack">
+        <!-- Cards will be inserted here by JavaScript -->
+    </div>
+    <button onclick="resetCards()">Reset</button>
+    
+    <script>
+        const initialBiases = [
+            { name: "Confirmation Bias", desc: "The tendency to search for, interpret, and remember information in a way that confirms one's beliefs." },
+            { name: "Anchoring Bias", desc: "Relying too heavily on the first piece of information encountered when making decisions." },
+            { name: "Loss Aversion", desc: "People prefer to avoid losses rather than acquire equivalent gains." },
+            { name: "Recency Bias", desc: "The tendency to weigh recent events more heavily than earlier events." },
+            { name: "Availability Heuristic", desc: "Overestimating the importance of information that is more easily recalled." },
+            { name: "Sunk Cost Fallacy", desc: "Continuing an endeavor because of previously invested resources rather than future gains." }
+        ];
+        
+        let biases = [...initialBiases];
+        
+        const stack = document.getElementById("cardStack");
+        
+        function renderCards() {
+            stack.innerHTML = "";
+            biases.forEach((bias, index) => {
+                let card = document.createElement("div");
+                card.classList.add("card");
+                card.style.transform = `translateY(${index * 5}px)`;
+                card.innerHTML = `<p>${bias.name}</p><span>${bias.desc}</span>`;
+                card.onclick = function () {
+                    alert(`${bias.name}: ${bias.desc}`);
+                    biases.push(biases.shift()); // Move selected card to the bottom
+                    renderCards();
+                };
+                stack.appendChild(card);
+            });
+        }
+        
+        function resetCards() {
+            biases = [...initialBiases];
+            renderCards();
+        }
+        
+        renderCards();
+    </script>
+</body>
+</html>
